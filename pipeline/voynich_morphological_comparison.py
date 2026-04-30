@@ -1,3 +1,4 @@
+"""
 pipeline/voynich_morphological_comparison.py
 
 Voynich Manuscript — Ethiopian Highland Flora Morphological Comparison Pipeline
@@ -43,6 +44,7 @@ USAGE
 DEPENDENCIES
 ------------
     pip install numpy scipy
+"""
 
 from __future__ import annotations
 
@@ -248,7 +250,7 @@ def print_report(results: list[ComparisonResult], top_n: int = 3) -> None:
     print()
 
     print(f"  -- TOP {top_n} MATCHES PER FOLIO --")
-    folios_seen: dict[str, list[ComparisonResult]] = {{}}
+    folios_seen: dict[str, list[ComparisonResult]] = {}
     for r in results:
         folios_seen.setdefault(r.folio, []).append(r)
 
@@ -257,7 +259,7 @@ def print_report(results: list[ComparisonResult], top_n: int = 3) -> None:
         print(f"\n  {folio_id}")
         for r in top:
             marker = "*" if r.norm_distance <= STRONG else ("." if r.norm_distance <= GOOD else " ")
-            print(f"    {marker} {r.plant:<30}  norm={{r.norm_distance:.4f}}  raw={{r.raw_distance:.4f}}")
+            print(f"    {marker} {r.plant:<30}  norm={r.norm_distance:.4f}  raw={r.raw_distance:.4f}")
 
     print()
     print("  * = strong positive (sub-0.10)   . = positive signal (sub-0.25)")
@@ -278,7 +280,7 @@ def flag_outliers(plants: list[PlantMetrics]) -> None:
     for p in plants:
         z = abs(p.leaf_lw - mean_lw) / std_lw if std_lw > 0 else 0
         if z > 2.5:
-            print(f"  WARNING OUTLIER: {{p.name}}  leaf_lw={{p.leaf_lw}}  (z={{z:.1f}})")
+            print(f"  WARNING OUTLIER: {p.name}  leaf_lw={p.leaf_lw}  (z={z:.1f})")
             print(f"  Z-score normalisation corrects for this. See Run 1 vs Run 2.")
 
 

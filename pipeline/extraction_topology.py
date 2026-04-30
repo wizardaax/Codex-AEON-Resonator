@@ -338,11 +338,11 @@ def print_instance_summary() -> None:
     print("  VERIFIED EXTRACTION TOPOLOGY INSTANCES")
     print("  Recursive Field Framework | Adam Snellman | 2026")
     print("=" * 72)
-    print(f"  {{'ID':<22}} {{'PERIOD':<22}} SCARCE RESOURCE")
-    print(f"  {{'-'*22}} {{'-'*22}} {{'-'*24}}")
+    print(f"  {'ID':<22} {'PERIOD':<22} SCARCE RESOURCE")
+    print(f"  {'-'*22} {'-'*22} {'-'*24}")
     for inst in VERIFIED_INSTANCES:
-        print(f"  {{inst.id:<22}} {{inst.period:<22}} {{inst.scarce_resource}}")
-    print(f"\n  Total verified instances : {{len(VERIFIED_INSTANCES)}}")
+        print(f"  {inst.id:<22} {inst.period:<22} {inst.scarce_resource}")
+    print(f"\n  Total verified instances : {len(VERIFIED_INSTANCES)}")
     print("=" * 72)
 
 
