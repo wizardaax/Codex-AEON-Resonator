@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  syntax:
+    name: Python syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile-check all .py files
+        run: |
+          # Walk the repo and ensure every .py file parses. Catches syntax
+          # regressions even without a test suite. Stdlib only, no deps.
+          python -m compileall -q -j 0 .
+
+  research-files:
+    name: Research artifact integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify expected research files exist
+        run: |
+          set -e
+          test -f README.md
+          test -f LICENSE
+          test -f CHANGELOG.md
+          test -d pipeline
+          test -d research
+          echo "All expected directories and root files present."
