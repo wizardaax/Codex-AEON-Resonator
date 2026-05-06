@@ -255,6 +255,9 @@ class ExtractionTopology:
             if v != w and not Gu.has_edge(v, w)
         ) // 2
 
+        # LEADER has no incoming edges, so the digraph is weakly connected
+        # (not strongly connected). is_strongly_connected() will return False;
+        # kept in the dict for completeness but readers should not expect True.
         return {
             "nodes": G.number_of_nodes(),
             "edges": G.number_of_edges(),
@@ -262,7 +265,7 @@ class ExtractionTopology:
             "clustering": round(nx.average_clustering(Gu), 4),
             "transitivity": round(nx.transitivity(Gu), 4),
             "open_triangles": open_triangles,
-            "is_strongly_connected": nx.is_strongly_connected(G),
+            "is_strongly_connected": nx.is_strongly_connected(G),  # False — graph is weakly connected
         }
 
     def print_metrics(self) -> None:
@@ -280,7 +283,7 @@ class ExtractionTopology:
         print(f"  Clustering coefficient : {m['clustering']}")
         print(f"  Transitivity           : {m['transitivity']}")
         print(f"  Open triangles         : {m['open_triangles']}")
-        print(f"  Strongly connected     : {m['is_strongly_connected']}")
+        print(f"  Weakly connected (only): {not m['is_strongly_connected']}  (strongly_connected={m['is_strongly_connected']})")
         if self.instance:
             print()
             print(f"  Scarce resource   : {self.instance.scarce_resource}")
